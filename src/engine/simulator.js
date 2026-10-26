@@ -1,3 +1,4 @@
+import { SIMULATION_NOTICE, SIMULATION_NOTICE_EN } from '../data/usage-notice.js';
 import { addFluid, removeFluid, refillFromInterstitial, updateFluidDerived, distributionFactor, SALINE } from './fluids.js';
 import { baselineAvailability, stepDrug } from './pharmacokinetics.js';
 import { ITEM_BY_ID, validateEntry } from '../data/catalog.js';
@@ -380,7 +381,7 @@ export class Simulator {
   }
 
   exportReport() {
-    return { ...this.serialize(), notice: '教学简化模型，未经临床验证；数据不得用于真实用药、诊断或急救。', life: structuredClone(this.life), support: structuredClone(this.support), infections: structuredClone(this.infections), infusions: structuredClone(this.infusions), values: { ...this.values }, metrics: METRICS, symptoms: this.symptoms, history: this.history, events: this.events };
+    return { ...this.serialize(), notice: SIMULATION_NOTICE, notice_en: SIMULATION_NOTICE_EN, life: structuredClone(this.life), support: structuredClone(this.support), infections: structuredClone(this.infections), infusions: structuredClone(this.infusions), values: { ...this.values }, metrics: METRICS, symptoms: this.symptoms, history: this.history, events: this.events };
   }
 
   static restore(data) {

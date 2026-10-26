@@ -1,3 +1,4 @@
+import { SIMULATION_NOTICE } from './data/usage-notice.js';
 import { CATALOG, DRUGS, FOODS, PATHOGENS, ITEM_BY_ID, categories, validateEntry } from './data/catalog.js';
 import { defaultEntry, solutionAmount } from './data/delivery.js';
 import { routeBadge, solutionControls, solutionFormula, solutionGuide, deliveryNumber } from './ui/delivery.js';
@@ -353,12 +354,12 @@ function download(filename, content, type) {
   const a = document.createElement('a'); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
-function exportJSON() { download(`vitalis-${sim.profile.id}-${Math.floor(sim.time)}min.json`, JSON.stringify(sim.exportReport(), null, 2), 'application/json'); toast('实验报告已导出，JSON 可再次导入重放。'); }
+function exportJSON() { download(`vitalis-${sim.profile.id}-${Math.floor(sim.time)}min.json`, JSON.stringify(sim.exportReport(), null, 2), 'application/json'); toast('游戏记录已导出，包含用途声明；JSON 可再次导入重放。'); }
 function exportCSV() {
-  const columns = ['模拟时间(min)', ...METRICS.map(m => `${m.name} (${m.unit})`)];
+  const columns = ['模拟时间(min)', ...METRICS.map(m => `${m.name} (${m.unit})`), '用途声明'];
   const samples = [...sim.history]; if (samples.at(-1)?.time !== sim.time) samples.push({ time: sim.time, ...sim.values });
-  const rows = [columns.map(c => `"${c}"`).join(','), ...samples.map(p => [p.time, ...METRICS.map(m => p[m.id].toFixed(5))].join(','))];
-  download(`vitalis-metrics-${Math.floor(sim.time)}min.csv`, '\uFEFF' + rows.join('\r\n'), 'text/csv;charset=utf-8'); toast('参数时序已导出。参考区间与模型说明见 JSON 报告。');
+  const rows = [columns.map(c => `"${c}"`).join(','), ...samples.map(p => [p.time, ...METRICS.map(m => p[m.id].toFixed(5)), JSON.stringify(SIMULATION_NOTICE)].join(','))];
+  download(`vitalis-metrics-${Math.floor(sim.time)}min.csv`, '\uFEFF' + rows.join('\r\n'), 'text/csv;charset=utf-8'); toast('游戏参数时序已导出，包含用途声明；不可用于科研或任何实际场景。');
 }
 
 function setSpeed(value) {

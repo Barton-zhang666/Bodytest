@@ -27,6 +27,29 @@ body {
   line-height:1.6
 }
 
+.game-notice {
+  margin:0 0 18px;
+  padding:14px 18px;
+  border:1px solid #e8d7ad;
+  border-left:4px solid #b28b45;
+  border-radius:12px;
+  background:#fff9eb;
+  color:#685329;
+  font-size:13px;
+  box-shadow:var(--shadow)
+}
+
+.game-notice strong {
+  display:block;
+  color:#59441f;
+  font-size:14px
+}
+
+.game-notice p {
+  margin:5px 0 0;
+  overflow-wrap:anywhere
+}
+
 button,input,select {
   font:inherit
 }

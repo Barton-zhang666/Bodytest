@@ -1,0 +1,3 @@
+// 导出结果也携带用途限制，避免离开界面后丢失游戏定位。
+export const SIMULATION_NOTICE = 'VITALIS 是游戏模拟器，仅供娱乐与交互体验。所有数值、图表、症状、药物响应、截图及导出结果均为游戏模拟结果，严禁用于科学研究、论文或实验依据、临床诊疗、真实用药、急救指导、安全评估及任何其他实际场景或现实决策。';
+export const SIMULATION_NOTICE_EN = 'VITALIS is a game simulator for entertainment and interactive exploration only. All values, charts, symptoms, drug responses, screenshots, and exported results are game-generated outputs. They must not be used for scientific research, publications or experimental evidence, clinical care, real medication decisions, emergency guidance, safety assessment, or any other real-world application or decision.';

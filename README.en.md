@@ -2,7 +2,7 @@
 
 # 🫀 VITALIS · Human Physiology Lab
 
-**A 3D sandbox for exploring how drugs, food, and physiological systems interact.**
+**A 3D human-body game simulator · For entertainment and interactive exploration only**
 
 ![Version](https://img.shields.io/badge/version-5.3.1-2b8f7c?style=flat-square)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES_Modules-f7df1e?style=flat-square&logo=javascript&logoColor=222)
@@ -17,7 +17,8 @@
 </div>
 
 > [!IMPORTANT]
-> This is an educational simulator that has not been clinically validated. Doses, concentrations, thresholds, and responses are model inputs or approximations. **Do not use it for real medication decisions, diagnosis, emergency care, or safe-dose assessment.**
+> **This project is a game simulator, not a research tool, medical application, or real-world prediction system.**
+> All values, charts, symptoms, drug responses, screenshots, and exported results are game-generated outputs. **They must not be used for scientific research, publications or experimental evidence, clinical care, real medication decisions, emergency guidance, safety assessment, or any other real-world application or decision.** The game is for entertainment and interactive exploration only; its results cannot establish real human responses or safety.
 
 ![VITALIS 3D anatomy and live physiological monitoring](.github/assets/preview.png)
 
@@ -135,13 +136,15 @@ The current application version is **5.3.1**, with **V5** physiology and save fo
 <a id="model-notes"></a>
 ## Model limitations
 
+**Game use only: no result may be used for research or any real-world application. This restriction also applies to exported, captured, or quoted results.**
+
 - **Educational approximation:** the app does not predict individual responses or cover every interaction, disease mechanism, or population. An absence of symptoms does not imply safety.
 - **Rescue scenarios:** support remains possible after cardiac or respiratory arrest. Simulation termination uses an irreversible brain-injury proxy threshold, not clinical brain-death criteria.
 - **Infection scenarios:** pathogen load and susceptibility are synthetic parameters, not real injection doses or clinical susceptibility results.
 - **Timing and signals:** effect duration depends on modeled clearance and effect compartments. ECG, EEG, and other waveforms are synthetic rather than diagnostic recordings.
 - **Anatomy:** the body and organs are procedurally generated for visual recognition and observation, not derived from human scans or intended for measurement.
 
-Automated tests verify software behavior and numerical rules; **they do not establish clinical accuracy**.
+Automated tests only verify game-program behavior and internal numerical rules. **They do not establish scientific validity, clinical accuracy, or real-world applicability, and do not qualify the results for research or practical use.**
 
 <a id="credits"></a>
 ## License and credits

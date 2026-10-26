@@ -3,7 +3,7 @@
   "version": "5.3.1",
   "private": true,
   "type": "module",
-  "description": "原生 HTML / JavaScript 人体生命活动教学模拟器",
+  "description": "原生 HTML / JavaScript 人体游戏模拟器；仅供娱乐，结果不可用于科研或实际场景",
   "scripts": {
     "dev": "node scripts/server.mjs",
     "start": "node scripts/server.mjs",
