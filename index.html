@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f8f6">
+  <meta name="description" content="VITALIS 人体生命实验室：探索药物、食物与人体生命体征之间的关系。完全本地运行的教学模拟器。">
+  <title>VITALIS · 人体生命实验室</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232b8f7c'/%3E%3Cpath d='M7 21h7l4-10 5 19 4-9h6' fill='none' stroke='white' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="module" src="./src/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至实验工作区</a>
+  <header class="app-header">
+    <a class="brand" href="#" aria-label="VITALIS 人体生命实验室首页"><span class="brand-mark" data-icon="activity"></span><span><b>VITALIS<span class="brand-dot">.</span></b><small>人体生命实验室</small></span></a>
+    <nav class="top-nav" aria-label="主导航">
+      <button class="nav-item active" data-view="lab"><span data-icon="flask"></span>模拟实验</button>
+      <button class="nav-item" data-view="parameters"><span data-icon="chart"></span>参数总览</button>
+      <button class="nav-item" data-action="about"><span data-icon="info"></span>模型说明</button>
+    </nav>
+    <div class="header-actions"><span class="save-status" id="save-status"><i></i> 本地运行</span><details class="export-menu"><summary class="button button-sm"><span data-icon="download"></span>导出实验</summary><div class="dropdown"><button data-action="export-json">实验报告 · JSON</button><button data-action="export-csv">参数时序 · CSV</button><button data-action="import">导入实验存档</button></div></details></div>
+  </header>
+  <aside class="side-rail" aria-label="快捷导航"><div><button class="rail-button active" data-view="lab" aria-label="模拟实验" title="模拟实验" data-icon="body"></button><button class="rail-button" data-view="parameters" aria-label="参数总览" title="参数总览" data-icon="chart"></button><button class="rail-button" data-action="library" aria-label="药物与食物库" title="药物与食物库" data-icon="pill"></button><button class="rail-button" data-action="events" aria-label="实验事件日志" title="实验事件日志" data-icon="list"></button></div><button class="rail-button" data-action="about" aria-label="模型说明" title="模型说明" data-icon="info"></button></aside>
+  <main id="main">
+    <div class="page-heading"><div><div class="eyebrow">THE HUMAN PHYSIOLOGY SANDBOX</div><h1 id="page-title">探索身体里的每一次变化<span class="version-badge">LAB 01</span></h1><p>从一次干预开始，观察生命系统之间的联系。</p></div><div class="model-status" id="model-status"><i></i><span>内环境平稳</span><small>HOMEOSTASIS</small></div></div>
+    <section class="control-bar" aria-label="模拟控制">
+      <div class="profile-control"><span class="control-icon" data-icon="body"></span><div><label for="profile">实验对象</label><select id="profile" aria-label="选择人体基线"></select></div><span class="profile-weight">70 kg<span>合成成人</span></span></div>
+      <div class="simulation-time"><span data-icon="clock"></span><div><small>模拟时间</small><b id="sim-clock">00:00:00</b></div></div>
+      <div class="play-controls"><button id="play-button" class="button button-primary" aria-label="开始模拟"><span data-icon="play"></span><span>开始模拟</span></button><div class="speed-control"><label for="speed">模拟速度 <output id="speed-value" for="speed">60×</output></label><input id="speed" type="range" min="1" max="300" step="1" value="60" aria-label="模拟速度" aria-valuetext="60 倍" aria-describedby="speed-limits"><div id="speed-limits" class="speed-limits"><span>1×</span><span>300×</span></div></div><span class="control-separator"></span><span class="quick-label">快进</span><button class="button button-quiet" data-forward="15">+15 分</button><button class="button button-quiet" data-forward="60">+1 时</button><button class="button button-quiet" data-forward="360">+6 时</button><button id="reset-button" class="icon-button reset-button" aria-label="重置实验" title="重置实验" data-icon="reset"></button></div>
+    </section>
+    <section class="sound-bar" aria-label="声音设置">
+      <button class="button button-sm" id="sound-toggle" aria-pressed="false">开启声音</button>
+      <label for="sound-volume">音量 <output id="sound-volume-value">25%</output></label><input id="sound-volume" type="range" min="0" max="100" value="25" aria-label="音效音量">
+      <details class="sound-samples"><summary>音效试听与来源</summary><div><button data-sound="beat" class="button button-sm">监护滴声</button><button data-sound="alarm" class="button button-sm">异常告警</button><button data-sound="terminal" class="button button-sm">终止提示</button><button data-sound="click" class="button button-sm">点击</button><button data-sound="confirm" class="button button-sm">投放成功</button><a href="https://github.com/Barton-zhang666/Bodytest#credits" target="_blank" rel="noopener">素材来源 · CC0 ↗</a></div></details><small id="sound-status">声音已关闭 · 开启后与模型状态联动</small>
+    </section>
+    <section class="panel rescue-panel" aria-labelledby="rescue-title"><div class="rescue-heading"><h2 id="rescue-title">急救与生命支持</h2><b id="rescue-state">自主循环</b></div><p id="rescue-status"></p><div class="rescue-controls">
+      <button class="button compression-button" id="compression-button">按压一次 · 点击 / 空格</button>
+      <button class="button" data-rescue="intubate">气管插管（模拟）</button><button class="button" data-rescue="extubate">移除导管</button>
+      <button class="button" data-rescue="ventilate">开启辅助通气</button><button class="button" data-rescue="stopVentilation">停止辅助通气</button>
+      <button class="button" data-rescue="oxygen">开启氧支持</button><button class="button" data-rescue="stopOxygen">停止氧支持</button>
+      <button class="button" data-rescue="stopInfusions">停止所有输注</button>
+
+    </div><div class="brain-reserve"><span id="brain-reserve-label"></span><progress id="brain-damage-progress" max="100" value="0" aria-label="不可逆脑损伤代理"></progress></div>
+    <details><summary>训练情景与模型边界</summary><p>骤停和呼吸暂停仍可施救。点击按压自动使用 1× 时间，停止点击后支持血流消退；插管不自动通气。终止只依据本沙盒脑损伤终末阈值，不构成临床脑死亡判定。</p><button class="button" data-rescue="trainingArrest">触发骤停训练</button><button class="button" data-rescue="trainingApnea">触发呼吸暂停训练</button><a href="https://github.com/Barton-zhang666/Bodytest#model-notes" target="_blank" rel="noopener">模型边界与说明 ↗</a></details>
+    </section>
+    <section class="panel infection-panel"><div class="rescue-heading"><h2>感染情景</h2><small>独立情景输入</small></div>
+      <div class="infection-inputs"><label for="infection-scenario">选择情景<select id="infection-scenario"></select></label><label for="infection-burden">初始负荷 <output id="infection-burden-value">10 虚构单位</output><input id="infection-burden" type="range" min="1" max="100" step="1" value="10"></label><button class="button" id="apply-infection">添加情景</button></div>
+      <p id="infection-description"></p><div id="infection-status"></div><p class="care-note">负荷仅为虚构情景参数，不对应真实病原体注射剂量。药物在下方统一药物库独立选择，不要求先添加感染情景。</p></section>
+    <section class="panel infection-panel"><div class="rescue-heading"><h2>输注观察</h2><button class="button" data-care-tab="product">选择输液与血液成分</button></div><div id="infusion-status"></div><p class="care-note">补液按成分混合，会影响血容量、血红蛋白与小分子浓度。盐水含钠、氯，因此各物质变化不同；血液制品不模拟配血。</p></section>
+    <div id="lab-view">
+      <section class="observation-grid" aria-label="人体模型与实时监护">
+        <article class="panel anatomy-panel">
+          <div class="panel-heading"><div><span class="section-number">01</span><h2>人体观察</h2><span class="sub-label">ANATOMY</span></div><span class="subtle-badge">3D · 半透明</span></div>
+          <div class="anatomy-workspace"><div class="organ-picker" id="organ-picker" aria-label="选择器官"></div><div class="body-stage"><div class="stage-grid"></div><span class="orientation-label" id="anatomy-direction">正面</span><span class="model-id">SUBJECT / 001</span><div id="anatomy"></div><div class="body-platform"></div><label class="anatomy-angle-control" for="anatomy-angle"><span>视角</span><input id="anatomy-angle" type="range" min="-180" max="180" value="0" step="1" aria-label="三维模型水平视角"><output id="angle-value" for="anatomy-angle">0°</output></label><div class="body-tools"><button class="icon-button" data-action="zoom-in" aria-label="放大模型" title="放大" data-icon="plus"></button><button class="icon-button" data-action="zoom-out" aria-label="缩小模型" title="缩小" data-icon="minus"></button><button class="icon-button" data-action="zoom-reset" aria-label="还原模型视图" title="还原视图" data-icon="reset"></button><button class="icon-button active" data-action="vessels" aria-label="切换血管层" aria-pressed="true" title="血管层" data-icon="layers"></button></div><span class="stage-caption" id="anatomy-controls-hint">拖动旋转 · 滚轮缩放 · 点击器官</span></div></div>
+          <div class="anatomy-view-buttons"><button class="button" data-anatomy-view="front">正面</button><button class="button" data-anatomy-view="back">背面</button><small>仅水平旋转 · ← → / + − · Home 还原</small></div><div class="appearance-legend"><span><i class="legend-injury"></i>损伤 · 橙红</span><span><i class="legend-failure"></i>衰竭 · 深紫红（同步文字标记）</span><small>未选中器官保持半透明</small></div>
+          <p id="appearance-summary" class="appearance-summary" aria-live="polite"></p>
+          <div class="organ-detail" id="organ-detail"></div>
+        </article>
+        <article class="monitor-panel">
+          <div class="monitor-heading"><div><span class="section-number">02</span><h2>实时生命体征</h2></div><span class="live-badge" id="live-badge"><i></i> 等待运行</span></div>
+          <div class="vitals-grid" id="vitals-grid"></div>
+          <section class="panel coupling-panel" aria-labelledby="coupling-title"><div class="coupling-heading"><h3 id="coupling-title">循环与供氧反馈</h3><a href="https://github.com/Barton-zhang666/Bodytest#model-notes" target="_blank" rel="noopener">模型说明 ↗</a></div><div class="coupling-grid">
+            <button data-metric="cardiacOutput"><span>心输出量</span><b id="coupling-cardiacOutput"></b><small>L/min · HR × SV</small></button>
+            <button data-metric="oxygenDelivery"><span>氧输送 DO₂</span><b id="coupling-oxygenDelivery"></b><small>mL/min · 有效血流 × CaO₂ × 10</small></button>
+            <button data-metric="oxygenExtraction"><span>氧提取率</span><b id="coupling-oxygenExtraction"></b><small>% · 代偿有上限</small></button>
+            <button data-metric="brainOxygen"><span>脑供氧储备</span><b id="coupling-brainOxygen"></b><small>% · 意识与呼吸驱动</small></button>
+            <button data-metric="renalPerfusion"><span>肾灌注储备</span><b id="coupling-renalPerfusion"></b><small>% · 尿量与清除</small></button>
+            <button data-metric="alveolarVentilation"><span>肺泡通气</span><b id="coupling-alveolarVentilation"></b><small>L/min · 频率与深度</small></button>
+          </div><p id="coupling-description"></p><small class="coupling-note">SpO₂ 是含氧比例，不是组织供氧总量。低灌注时主卡会标记读数不可靠；参数页保留模型内部动脉血氧值。</small><details class="coupling-network"><summary>查看跨系统联动关系</summary><ul>
+<li><b>循环：</b>心率 / 容量 / 收缩力 → 每搏量与心输出量 → 压力及供氧 → 有限交感代偿。</li>
+<li><b>呼吸：</b>频率 × 有效呼吸深度 → CO₂ / 氧分压 → pH / 意识 → 呼吸代偿；镇静与脑干低供氧可抑制代偿。</li>
+<li><b>肾脏：</b>灌注下降 → 少尿、滤过下降 → 钾与药物清除减慢 → 心肌与循环进一步受影响。</li>
+<li><b>失血：</b>凝血 / 血小板功能异常 → 持续失血 → 容量与血红蛋白下降 → 泵血和携氧同时减少。</li>
+<li><b>肝脏：</b>毒性 / 低灌注 → 损伤 → 药物与乳酸清除、凝血、葡萄糖维持受影响。</li>
+<li><b>代谢：</b>进食 / 药物 → 血糖；低糖影响脑功能，高糖增加渗透性利尿；发热与疼痛增加耗氧。</li>
+<li><b>酸碱与电解质：</b>乳酸 / 肾酸负担 / CO₂ → pH → 呼吸、血钾分布与心肌功能；钾镁钙影响电活动。</li>
+<li><b>损伤：</b>持续缺氧 / 低灌注 → 器官损伤累积 → 功能和代偿能力下降，形成进一步恶化的反馈。</li>
+</ul><p>箭头代表本教学模型已实现的方向；强度、时延及损伤阈值未经临床标定。点击上方“模型依据”查看方程和未覆盖机制。</p></details></section>
+          <section class="panel wave-panel"><div class="wave-heading"><h3><span data-icon="activity"></span>生理信号</h3><span>合成波形 · 动效按当前体征播放</span></div><div class="wave-row"><div class="wave-label"><b>ECG</b><span>心电</span></div><canvas id="wave-ecg" aria-label="合成心电波形"></canvas><div class="wave-value" id="wave-value-ecg">72<small>bpm</small></div></div><div class="wave-row"><div class="wave-label"><b>RESP</b><span>呼吸</span></div><canvas id="wave-resp" aria-label="合成呼吸波形"></canvas><div class="wave-value" id="wave-value-resp">16<small>次/min</small></div></div><div class="wave-row"><div class="wave-label"><b>EEG</b><span>脑电</span></div><canvas id="wave-eeg" aria-label="合成脑电波形"></canvas><div class="wave-value" id="wave-value-eeg">10.0<small>Hz</small></div></div></section>
+          <section class="panel symptoms-panel"><div class="symptom-heading"><h3><span data-icon="shield"></span>实际症状与器官状态</h3><span class="count-badge" id="symptom-count">0</span><button class="text-button" data-action="events">事件日志 <span data-icon="chevron"></span></button></div><div id="symptoms"></div></section>
+        </article>
+      </section>
+      <section class="intervention-section" id="intervention-section"><div class="section-title"><div><span class="section-number">03</span><h2>干预实验台</h2><p>独立选择药物、食物与输注，观察全身响应。</p></div><span class="catalog-summary" id="catalog-summary"></span></div><div class="intervention-grid">
+        <article class="panel library-panel"><div class="library-tabs" role="tablist" aria-label="干预内容"><button class="library-tab active" role="tab" aria-selected="true" data-tab="drug"><span data-icon="pill"></span>药物库 <span id="drug-count"></span></button><button class="library-tab" role="tab" aria-selected="false" data-tab="food"><span data-icon="food"></span>食物库 <span id="food-count"></span></button><button class="library-tab" role="tab" aria-selected="false" data-tab="product">输液与血液</button><button class="library-tab" role="tab" aria-selected="false" data-tab="active"><span data-icon="activity"></span>体内活性</button><button class="library-tab" role="tab" aria-selected="false" data-tab="events"><span data-icon="list"></span>事件日志</button></div>
+          <div class="library-filters" id="library-filters"><label class="search-box"><span data-icon="search"></span><input id="search" type="search" placeholder="搜索名称、途径、分类或机制…" aria-label="搜索当前干预目录"></label><label class="category-select"><span class="sr-only">分类</span><select id="category" aria-label="筛选分类"></select></label></div>
+          <div id="library-content" class="library-content"></div><div id="library-pagination" class="library-pagination"></div>
+        </article>
+        <aside class="panel queue-panel"><div class="queue-heading"><h3><span data-icon="flask"></span>本次干预</h3><span class="count-badge" id="queue-count">0</span><button class="text-button" id="clear-queue">清空</button></div><div class="queue-items" id="queue-items"></div><div class="queue-interactions" id="queue-interactions"></div><div class="queue-footer"><p><span data-icon="info"></span>药量为教学模型输入，不代表推荐或安全剂量。</p><button id="administer" class="button button-primary button-full" disabled><span data-icon="plus"></span>应用干预 <span id="administer-count"></span></button><span class="queue-hint">多项干预将同时进入模型 · 随模拟时间逐步起效</span></div></aside>
+      </div></section>
+    </div>
+    <section id="parameters-view" hidden><div class="parameters-intro"><div><h2>把变化看得更完整</h2><p><span id="parameter-count">79</span> 项参数，连接循环、呼吸、代谢、神经与器官功能。</p></div><button class="button" data-action="export-csv"><span data-icon="download"></span>导出参数时序</button></div><article class="panel trend-panel"><div class="panel-heading"><div><h3>参数变化趋势</h3><span class="sub-label">每 2 分钟采样 · 最多保留最近 48 小时</span></div><select id="trend-metric" aria-label="选择趋势参数"></select></div><canvas id="trend-chart" aria-label="模拟参数随时间变化的趋势图"></canvas><p id="trend-description"></p></article><div class="parameter-groups" id="parameter-groups"></div></section>
+    <footer class="app-footer"><span><span data-icon="shield"></span>教学探索用途 · 简化模型，未经临床验证，不用于真实用药或诊疗</span><span>VITALIS ENGINE 5.3.1 <i></i> 数据仅保存在此浏览器</span></footer>
+  </main>
+  <dialog id="detail-dialog" class="detail-dialog"><button class="dialog-close icon-button" data-close="detail-dialog" aria-label="关闭详情" data-icon="close"></button><div id="detail-content"></div></dialog>
+  <dialog id="about-dialog" class="about-dialog"><button class="dialog-close icon-button" data-close="about-dialog" aria-label="关闭模型说明" data-icon="close"></button><div class="eyebrow">BEHIND THE SIMULATION</div><h2>理解身体，也理解模型的边界。</h2><p class="dialog-lead">一个可解释的生理学沙盒。每一次变化，都由时间、暴露与系统反馈共同推动。</p><div class="about-flow"><span>选择干预</span><b>→</b><span>吸收 / 清除</span><b>→</b><span>系统响应</span><b>→</b><span>体征与症状</span></div><div class="about-grid"><section><h3>时间是真正的变量</h3><p>药物通过一级吸收和清除进入效应室；重复投放会累积。时间倍率只加快模拟时钟，心肺动作仍按当前体征的真实频率播放。</p></section><section><h3>系统彼此联系</h3><p>低容量改变灌注，低通气改变 CO₂，电解质影响电生理。症状由当前参数触发，而非药物名称直接触发。</p></section><section><h3>数据有明确的边界</h3><p>通用药名与部分作用方向有公开资料支持；所有剂量响应、时间常数、风险分数与波形均为教学近似，未进行临床校准。</p></section><section><h3>你的实验留在本地</h3><p>浏览器自动保存，刷新后暂停恢复。可导出 JSON 报告与 CSV 时序，或导入 JSON 重放。模型不获取真实个人健康资料。</p></section></div><div class="notice-box"><span data-icon="info"></span><p>没有出现症状不代表安全。相互作用库不完整；不覆盖过敏性休克、个体基因、儿童孕期、真实心律失常与临床死亡预测。模拟死亡与不可逆损伤只遵循教学规则。基线预设是持续的合成边界条件。感染情景采用虚构负荷和敏感谱，不代表实际感染或治疗方案。</p></div><div class="about-links"><a href="https://github.com/Barton-zhang666/Bodytest#quick-start" target="_blank" rel="noopener">项目使用说明 ↗</a><a href="https://github.com/Barton-zhang666/Bodytest#model-notes" target="_blank" rel="noopener">模型边界 ↗</a><a href="https://github.com/Barton-zhang666/Bodytest#credits" target="_blank" rel="noopener">开源素材与许可 ↗</a><a href="https://dailymed.nlm.nih.gov/dailymed/" target="_blank" rel="noopener">DailyMed 药品标签 ↗</a></div></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog"><div class="confirm-icon" data-icon="reset"></div><h2 id="confirm-title">新建实验</h2><p id="confirm-description"></p><div class="dialog-actions"><button class="button" id="confirm-cancel">取消</button><button class="button button-primary" id="confirm-accept">确认重置</button></div></dialog>
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="notice-box">请启用 JavaScript 后使用人体生命模拟器。</p></noscript>
+</body>
+</html>

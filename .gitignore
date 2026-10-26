@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+*.log
+.env*
+!.env.example
+artifacts/
+
+# 公开文档仅保留根目录中英文 README；设计及协作资料留在本地。
+/docs/
+*.md
+!/README.md
+!/README.en.md
